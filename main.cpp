@@ -1,5 +1,8 @@
 #include<iostream>
+#include<vector>
+#include<algorithm>
 using namespace std;
+vector<int> pol1,pol2;
 
 void inPoly(){
 	int deg1=0, deg2=0;
@@ -11,6 +14,7 @@ void inPoly(){
 		cin >> tmp;
 		pol1.push_back(tmp);
 	}
+	reverse(pol1.begin(), pol1.end());
 	cout << "Masukkan degree polinomial kedua: \n";
 	cin >> deg2;
 	for(int i=deg2;i>=0;i--){
@@ -19,10 +23,10 @@ void inPoly(){
 		cin >> tmp;
 		pol2.push_back(tmp);
 	}
+	reverse(pol2.begin(), pol2.end());
 }
 
 void outPoly(vector<int> &source){
-	cout << "Hasil dari perkalian dua polynomial tersebut adalah: \n";
 	cout << source[source.size()-1] << "x^" << source.size()-1;
 	for(int i=source.size()-2;i>=1;i--){
 		if(source[i] < 0) cout << " - " << abs(source[i]) << "x^" << i;
@@ -34,5 +38,6 @@ void outPoly(vector<int> &source){
 }
 
 int main(){
+	inPoly();
 	return 0;
 }
