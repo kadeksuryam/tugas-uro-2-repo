@@ -1,10 +1,11 @@
 #include<iostream>
 #include<vector>
 #include<algorithm>
+
 using namespace std;
 vector<int> pol1,pol2;
 
-void inPoly(){
+void inPoly1(){
 	int deg1=0, deg2=0;
 	cout << "Masukkan degree polinomial pertama: \n";
 	cin >> deg1;
@@ -26,6 +27,10 @@ void inPoly(){
 	reverse(pol2.begin(), pol2.end());
 }
 
+void inPoly2(){
+	
+}
+
 void outPoly(vector<int> &source){
 	cout << source[source.size()-1] << "x^" << source.size()-1;
 	for(int i=source.size()-2;i>=1;i--){
@@ -38,6 +43,12 @@ void outPoly(vector<int> &source){
 }
 
 int main(){
+	cout << "Selamat datang di"
+	int pil;
+	cout << "Masukkan pilihan anda: \n";
+	cout << "1. Pertambahan Polinomial		2. Pengurangan Polinomial\n";
+	cout << "3. Perkalian Polinomial		4. Turunan Polinomial\n";
+	cin >> pil;
 	inPoly();
 	return 0;
 }
