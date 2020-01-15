@@ -2,7 +2,7 @@
    - Implementasi menggunakan C++11
    - Hasil final ada di file : main.cpp
 
-## Anggota Kelompok:
+## Anggota Kelompok
 | Nama Anggota Kelompok     | Jurusan dan Fakultas | NIM      |
 |---------------------------|----------------------|----------|
 | Mochammad Fatchur Rochman | TPB STEI             | 16519083 |
