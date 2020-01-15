@@ -3,8 +3,9 @@
 #include<algorithm>
 using namespace std;
 
-vector<int> pol1,pol2;  //polinomal pertama dan polinomial kedua
-int deg1, deg2; //harus di global karena akan kita pakai di fungsi turunan polinomial
+vector<int> pol1,pol2,source;  //polinomal pertama dan polinomial kedua
+int deg1, deg2;  //pol1 = polinomial pertama, pol2 = polinomal kedua
+//harus di global karena akan kita pakai di fungsi turunan polinomial
 
 void inPoly(int &pilihan){ //pass reference karena nilai pilihan tidak akan kita ubah
 	if(pilihan==4){  //ketika user memilih operator turunan, harus kita bedakan, karena turunan hanya perlu satu polinomal
@@ -19,7 +20,6 @@ void inPoly(int &pilihan){ //pass reference karena nilai pilihan tidak akan kita
 		reverse(pol1.begin(), pol1.end()); //harus di reverse supaya index vektor (degree) sesuai dengan isi vektornya
 		return;
 	}
-	int deg1=0, deg2=0; //pol1 = degree polinomial pertama, pol2 = degree polinomial kedua
 	cout << "Masukkan degree polinomial pertama: \n";
 	cin >> deg1;
 	for(int i=deg1;i>=0;i--){
@@ -28,6 +28,7 @@ void inPoly(int &pilihan){ //pass reference karena nilai pilihan tidak akan kita
 		cin >> tmp;
 		pol1.push_back(tmp);  // mengisi vektor pol1 dari koefisien polinomial tertinggi
 	}
+	cout << "\n";
 	//kita menganalogikan index vektor menjadi degree polinomial
 	reverse(pol1.begin(), pol1.end()); //harus di reverse supaya index vektor (degree) sesuai dengan isi vektornya
 	cout << "Masukkan degree polinomial kedua: \n";
@@ -75,16 +76,71 @@ vector<int> turunan(vector<int> &pol1){ //fungsi turunan yang akan mengembalikan
 	return f1;
 }
 
+void AddPoly(vector<int> &pol1, vector<int> &pol2, vector<int> &source){
+	if (pol1.size() > pol2.size()){
+		for (int i = pol1.size()-1; i >= 0; i--){
+			if (i > pol2.size()-1) source.push_back(pol1[i]);
+			else source.push_back(pol1[i]+pol2[i]);
+		}
+		reverse(source.begin(), source.end());
+	}else{
+		for (int i = pol2.size()-1; i >=0; i--){
+			if (i > pol1.size()-1) source.push_back(pol2[i]);
+			else source.push_back(pol1[i] + pol2[i]);
+		}
+		reverse(source.begin(), source.end());
+	}
+}
+
+void SubPoly(vector<int> &pol1, vector<int> &pol2, vector<int> &source){
+	char pil;
+	cout << "Apakah Anda ingin mengurangi polinomial pertama dengan polinomial kedua? [y/n]" << endl;
+	cin >> pil;
+	if (pil == 'y'){
+		if (pol1.size() > pol2.size()){
+			for (int i = pol1.size()-1; i >= 0; i--){
+				if (i > pol2.size()-1) source.push_back(pol1[i]);
+				else source.push_back(pol1[i]-pol2[i]);
+			}
+			reverse(source.begin(), source.end());
+		}else{
+			for (int i = pol2.size()-1; i >=0; i--){
+				if (i > pol1.size()-1) source.push_back(-1*pol2[i]);
+				else source.push_back(pol1[i] - pol2[i]);
+			}
+			reverse(source.begin(), source.end());
+		}
+	}else if (pil == 'n'){
+		if (pol1.size() > pol2.size()){
+			for (int i = pol1.size()-1; i >= 0; i--){
+				if (i > pol2.size()-1) source.push_back(-1*pol1[i]);
+				else source.push_back(pol2[i]-pol1[i]);
+			}
+			reverse(source.begin(), source.end());
+		}else{
+			for (int i = pol2.size()-1; i >=0; i--){
+				if (i > pol1.size()-1) source.push_back(pol2[i]);
+				else source.push_back(pol2[i] - pol1[i]);
+			}
+			reverse(source.begin(), source.end());
+		}
+	}
+}
+
 int main(){
-	cout << "Selamat datang di Program Operasi Polinomial"
+	cout << "Selamat datang di Program Operasi Polinomial";
 	int pil;
 	cout << "Masukkan piliah operasi polinomial yang ingin anda proses: \n";
 	cout << "1. Pertambahan Polinomial		2. Pengurangan Polinomial\n";
-	cout << "3. Perkalian Polinomial		4. Turunan Polinomial\n";
+	cout << "3. Perkalian Polinomial			4. Turunan Polinomial\n";
 	cin >> pil;
+	cout << "\nCatatan : ^ adalah simbol untuk pangkat\n";
 	inPoly(pil);
+	cout << "\nHasil polinomial setelah melakukan operasi tersebut adalah ";
 	if(pil != 4) {
-		
+		if(pil == 1) AddPoly(pol1, pol2, source);
+		else if(pil == 2) SubPoly(pol1, pol2, source);
+		outPoly(source);
 	}
 	else {
 		vector<int> tmp = turunan(pol1); //temporary vector hasil kembalian dari fungsi turunan
