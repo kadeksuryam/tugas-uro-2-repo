@@ -77,13 +77,14 @@ vector<int> turunan(vector<int> &pol1){ //fungsi turunan yang akan mengembalikan
 }
 
 void AddPoly(vector<int> &pol1, vector<int> &pol2, vector<int> &source){
-	if (pol1.size() > pol2.size()){
+	if (pol1.size() > pol2.size()){ //kasus ketika degree polinomal pertama lebih tinggi dari polinomial kedua
 		for (int i = pol1.size()-1; i >= 0; i--){
-			if (i > pol2.size()-1) source.push_back(pol1[i]);
-			else source.push_back(pol1[i]+pol2[i]);
+			if (i > pol2.size()-1) source.push_back(pol1[i]); //ketika degree polinomial pertama masih lebih tinggi dari polinomial kedua langsung saja ambil koefisiennya 
+			else source.push_back(pol1[i]+pol2[i]); //saat degree keduanya sudah sama, langsung saja tambahkan tambahkan kedua koefisiennya
 		}
 		reverse(source.begin(), source.end());
 	}else{
+		//prosesnya sama dengan diatas cuma untuk kasus degree polinomial pertama lebih kecil dari polinomial kedua
 		for (int i = pol2.size()-1; i >=0; i--){
 			if (i > pol1.size()-1) source.push_back(pol2[i]);
 			else source.push_back(pol1[i] + pol2[i]);
@@ -94,8 +95,12 @@ void AddPoly(vector<int> &pol1, vector<int> &pol2, vector<int> &source){
 
 void SubPoly(vector<int> &pol1, vector<int> &pol2, vector<int> &source){
 	char pil;
+	//ada dua kasus yakni polinomial pertama dikurang kedua atau sebaliknya
+	//akibatnya kita perlu meminta user untuk memilih
 	cout << "Apakah Anda ingin mengurangi polinomial pertama dengan polinomial kedua? [y/n]" << endl;
 	cin >> pil;
+	//prosesnya saja saja dengan pertambahan cuma ketika kasus polinomial pertama lebih kecil dari polinomial kedua
+	//koefisien dari polinomial pertama akan negatif atau sebaliknya
 	if (pil == 'y'){
 		if (pol1.size() > pol2.size()){
 			for (int i = pol1.size()-1; i >= 0; i--){
@@ -105,7 +110,7 @@ void SubPoly(vector<int> &pol1, vector<int> &pol2, vector<int> &source){
 			reverse(source.begin(), source.end());
 		}else{
 			for (int i = pol2.size()-1; i >=0; i--){
-				if (i > pol1.size()-1) source.push_back(-1*pol2[i]);
+				if (i > pol1.size()-1) source.push_back(-1*pol2[i]); //koefisien akan negatif
 				else source.push_back(pol1[i] - pol2[i]);
 			}
 			reverse(source.begin(), source.end());
@@ -113,7 +118,7 @@ void SubPoly(vector<int> &pol1, vector<int> &pol2, vector<int> &source){
 	}else if (pil == 'n'){
 		if (pol1.size() > pol2.size()){
 			for (int i = pol1.size()-1; i >= 0; i--){
-				if (i > pol2.size()-1) source.push_back(-1*pol1[i]);
+				if (i > pol2.size()-1) source.push_back(-1*pol1[i]); //koefisien akan negatif
 				else source.push_back(pol2[i]-pol1[i]);
 			}
 			reverse(source.begin(), source.end());
@@ -127,6 +132,18 @@ void SubPoly(vector<int> &pol1, vector<int> &pol2, vector<int> &source){
 	}
 }
 
+vector<int> polymul(vector<int> &poly1, vector<int> &poly2){
+	//katakanlah jika kita mengalikan polinomial pertama dengan kedua yang masing-masing degreenya n dan m
+	//koefisien tertinggi dari perkaliannya adalah n+m, tapi karena kita menggunakan vektor maka koefisien tertingginya pol1.size() + pol2.size()-2
+	vector<int> coeff(poly1.size()+poly2.size()-1); 
+	for(int i=0;i<poly1.size();i++){
+		for(int j=0;j<poly2.size();j++){
+			coeff[i+j] += poly1[i]*poly2[j]; //analoginya seperti perkalian angka biasa
+		}
+	}
+	return coeff;
+}
+
 int main(){
 	cout << "Selamat datang di Program Operasi Polinomial";
 	int pil;
@@ -137,14 +154,21 @@ int main(){
 	cout << "\nCatatan : ^ adalah simbol untuk pangkat\n";
 	inPoly(pil);
 	cout << "\nHasil polinomial setelah melakukan operasi tersebut adalah ";
-	if(pil != 4) {
+	if(pil != 4 && pil != 3) {
 		if(pil == 1) AddPoly(pol1, pol2, source);
 		else if(pil == 2) SubPoly(pol1, pol2, source);
 		outPoly(source);
 	}
-	else {
-		vector<int> tmp = turunan(pol1); //temporary vector hasil kembalian dari fungsi turunan
-		outPoly(tmp);
+	else{
+		//buat temporary vector yang akan menyimpan kembalian fungsi turunan dan perkalian
+		if(pil == 3){
+			vector<int> tmp = polymul(pol1, pol2); 
+			outPoly(tmp);
+		}
+		else if(pil == 4){
+			vector<int> tmp = turunan(pol1); 
+			outPoly(tmp);
+		}
 	}
 	return 0;
 }
