@@ -4,8 +4,22 @@
 
 using namespace std;
 vector<int> pol1,pol2;
+int deg1=0, deg2=0;
 
-void inPoly1(){
+void inPoly(int pilihan){
+	if(pilihan==4){
+		int deg1=0, deg2=0;
+		cout << "Masukkan degree polinomial: \n";
+		cin >> deg1;
+		for(int i=deg1;i>=0;i--){
+			int tmp;
+			cout << "Masukkan koefisien x^" << i << "\n";
+			cin >> tmp;
+			pol1.push_back(tmp);
+		}
+		reverse(pol1.begin(), pol1.end());
+		return;
+	}
 	int deg1=0, deg2=0;
 	cout << "Masukkan degree polinomial pertama: \n";
 	cin >> deg1;
@@ -27,9 +41,6 @@ void inPoly1(){
 	reverse(pol2.begin(), pol2.end());
 }
 
-void inPoly2(){
-	
-}
 
 void outPoly(vector<int> &source){
 	cout << source[source.size()-1] << "x^" << source.size()-1;
@@ -43,12 +54,12 @@ void outPoly(vector<int> &source){
 }
 
 int main(){
-	cout << "Selamat datang di"
+	cout << "Selamat datang di";
 	int pil;
 	cout << "Masukkan pilihan anda: \n";
 	cout << "1. Pertambahan Polinomial		2. Pengurangan Polinomial\n";
 	cout << "3. Perkalian Polinomial		4. Turunan Polinomial\n";
 	cin >> pil;
-	inPoly();
+	inPoly(pil);
 	return 0;
 }
