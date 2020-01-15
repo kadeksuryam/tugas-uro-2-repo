@@ -1,4 +1,4 @@
-## Repositori Tugas 2 Programming, Sekolah URO Programming
+# Repositori Tugas 2 Programming URO
    - Implementasi menggunakan C++11
    - Hasil final ada di file : main.cpp
 
